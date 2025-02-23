@@ -22,8 +22,11 @@ public class Calculator {
         return a / b;
     }
 
-    public double divideByZero(int a, int b) {
+    public double divideByZero(int a, int b, int exprectedResult) {
         System.out.println("Частное чисел: " + a +  " и " + b + " = " + (a / b));
+        if (b == 0){
+            throw new ArithmeticException("division by zero");
+        }
         return a / b;
     }
 }

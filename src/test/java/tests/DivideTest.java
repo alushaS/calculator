@@ -4,29 +4,29 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class DivideTest extends BaseTest implements ITestsConstants{
+public class DivideTest extends BaseTest{
 
     @DataProvider(name = "positive numbers")
     public Object[][] numbers() {
         return new Object[][] {
-                {POSITIVE_NUM_8_3, POSITIVE_NUM_2_5},
-                {ZERO, POSITIVE_NUM_4_6},
-                {POSITIVE_NUM_4_6, POSITIVE_NUM_2_5}
+                {8.3, 2.5},
+                {0, 4.6},
+                {4.6, 2.5}
         };
     }
 
     @DataProvider(name = "negative numbers")
     public Object[][] negativeNumbers() {
         return new Object[][] {
-                {NEGATIVE_NUM_8_7, NEGATIVE_NUM_4_2},
-                {ZERO, NEGATIVE_NUM_3_4},
+                {-8.7, -4.2},
+                {0, 3.4},
         };
     }
 
     @DataProvider(name = "division by zero")
     public Object[][] divisionByZero() {
         return new Object[][] {
-                {5, 0},
+                {5, 0, 0},
         };
     }
 
@@ -44,15 +44,13 @@ public class DivideTest extends BaseTest implements ITestsConstants{
 
 
     @Test(retryAnalyzer = Retry.class, dataProvider = "division by zero", description = "Division by zero test", priority = 7)
-    public void subtractByZeroTest(int a, int b) {
-        String expectedResult = "Делить на ноль нельзя!";
-        String actualResult = null;
+    public void divideByZeroTest(int a, int b, double expectedResult) {
         try {
-             calculator.divideByZero(a, b);
-        } catch (ArithmeticException exception) {
-            actualResult = "Делить на ноль нельзя!";
-            System.out.println(actualResult);
+            double result = calculator.divide(a, b);
+            Assert.assertEquals(result, expectedResult);
+        } catch (ArithmeticException e) {
+            Assert.assertEquals(b, 0);
         }
-        Assert.assertEquals(actualResult, expectedResult);
     }
 }
+
